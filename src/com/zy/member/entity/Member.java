@@ -5,8 +5,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.zy.base.entity.Degree;
 import com.zy.broker.entity.BrokerInfo;
+import com.zy.broker.entity.MemBrokerRel;
 import com.zy.personal.entity.MemBankInfo;
 
 /**
@@ -31,8 +33,8 @@ public class Member extends MemberUser{
 	private Degree degree;
 	private String accountType;//账号类型（全部、真实、测试）
 	private String accountCategory;//账号类别（全部、客户、老师）
-	private List<BrokerInfo> brokerInfos;//经纪商
-	private List<MemBankInfo> memBankInfos;//银行信息
+	private List<MemBrokerRel> memBrokerRels;//经纪商
+	private MemBankInfo memBankInfo;//银行信息
 	private String cnName;//中文名
 	private String enName;//英文名
 	private String telephone;//电话
@@ -66,20 +68,20 @@ public class Member extends MemberUser{
 		this.accountCategory = accountCategory;
 	}
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-	public List<BrokerInfo> getBrokerInfos() {
-		return brokerInfos;
+	@OneToMany(mappedBy = "member")
+	public List<MemBrokerRel> getMemBrokerRels() {
+		return memBrokerRels;
 	}
-	public void setBrokerInfos(List<BrokerInfo> brokerInfos) {
-		this.brokerInfos = brokerInfos;
+	public void setMemBrokerRels(List<MemBrokerRel> memBrokerRels) {
+		this.memBrokerRels = memBrokerRels;
 	}
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-	public List<MemBankInfo> getMemBankInfos() {
-		return memBankInfos;
+	
+	@JoinColumn(name = "mem_bank_info_id")
+	public MemBankInfo getMemBankInfo() {
+		return memBankInfo;
 	}
-	public void setMemBankInfos(List<MemBankInfo> memBankInfos) {
-		this.memBankInfos = memBankInfos;
+	public void setMemBankInfo(MemBankInfo memBankInfo) {
+		this.memBankInfo = memBankInfo;
 	}
 	@Column(length=64)
 	public String getCnName() {
