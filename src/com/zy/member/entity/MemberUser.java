@@ -4,29 +4,37 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import com.zy.common.entity.BaseEntity;
 
 /**
- * �û�
+ * 用户
  * @author Jeff Xu
  * @since 2015-08-18
  */
 @Entity
 @Table(name = "mem_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class MemberUser extends BaseEntity{
 
 	private static final long serialVersionUID = 4489356694283694129L;
 
-	
 	private String userName;
 	
-	private String pwd;
-
-	private Date lastLoginDate;					//����¼ʱ��
+	private String mobile;						//手机号
 	
-	private String lastLoginIp;					//����¼IP
+	private String email;						//邮箱
+	
+	private String nickName;					//昵称
+	
+	private String pwd;							//密码 
+
+	private Date lastLoginDate;					//最后登录时间
+	
+	private String lastLoginIp;					//最后登录IP
 	
 	private Boolean locked;
 
@@ -73,6 +81,33 @@ public class MemberUser extends BaseEntity{
 
 	public void setLastLoginIp(String lastLoginIp) {
 		this.lastLoginIp = lastLoginIp;
+	}
+
+	@Column(name="mobile")
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	@Column(name="email", length=64)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Column(name="nick_name", length=128)
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 }
