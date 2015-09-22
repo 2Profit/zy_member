@@ -6,16 +6,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.zy.base.entity.Degree;
-import com.zy.broker.entity.BrokerInfo;
 import com.zy.broker.entity.MemBrokerRel;
 import com.zy.personal.entity.MemBankInfo;
 
@@ -26,6 +24,7 @@ import com.zy.personal.entity.MemBankInfo;
  */
 @Entity
 @Table(name = "mem_member")
+@PrimaryKeyJoinColumn(name = "ID", referencedColumnName = "ID")
 public class Member extends MemberUser{
 
 	private static final long serialVersionUID = 87102501953163859L;
@@ -45,6 +44,8 @@ public class Member extends MemberUser{
 	private String isCommentAuth;//评论权限（1-开，0-关）
 	private String status;//状态（0-启用，1-冻结，2-黑名单，3-销户）
 
+	private String headUrl;
+	
 	@ManyToOne
 	@JoinColumn(name = "degree_id")
 	public Degree getDegree() {
@@ -145,7 +146,14 @@ public class Member extends MemberUser{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+
+	@Column(name="head_url", length=256)
+	public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public void setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+	}
 	
 }
