@@ -20,7 +20,7 @@ import com.zy.broker.entity.MemBrokerRel;
 import com.zy.personal.entity.MemBankInfo;
 
 /**
- * ��Ա��Ϣ
+ * 用户
  * @author Jeff
  * @since 2015-08-18
  */
