@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.zy.base.entity.Degree;
+import com.zy.base.entity.Nationality;
 import com.zy.broker.entity.MemBrokerRel;
 import com.zy.personal.entity.MemBankInfo;
 
@@ -45,6 +47,23 @@ public class Member extends MemberUser{
 	private String status;//状态（0-启用，1-冻结，2-黑名单，3-销户）
 
 	private String headUrl;
+	
+	private Integer sex;		//性别 0男  1女
+	private Integer cardType;	//证件类型
+	private String card;		//证件号
+	private String address;		//联系地址
+	private Nationality nationality;	//国籍
+	
+	private String imgIDCardA;			//身份证正面
+//	private Integer imgIDCardAStatus;	//
+	private String imgIDCardB;			//身份证反面
+//	private Integer imgIDCardBStatus;	//
+	
+	private String imgAddress;
+	
+	private String imgBankCard1;
+	private String imgBankCard2;
+	private String imgBankCard3;
 	
 	@ManyToOne
 	@JoinColumn(name = "degree_id")
@@ -154,6 +173,95 @@ public class Member extends MemberUser{
 
 	public void setHeadUrl(String headUrl) {
 		this.headUrl = headUrl;
+	}
+	
+	@Column(name="sex", precision=1)
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	
+	@Column(name="card_type", precision=1)
+	public Integer getCardType() {
+		return cardType;
+	}
+	public void setCardType(Integer cardType) {
+		this.cardType = cardType;
+	}
+	
+	@Column(name="card", length=128)
+	public String getCard() {
+		return card;
+	}
+	public void setCard(String card) {
+		this.card = card;
+	}
+	
+	@Column(name="address", length=512)
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="nationality_id")
+	public Nationality getNationality() {
+		return nationality;
+	}
+	public void setNationality(Nationality nationality) {
+		this.nationality = nationality;
+	}
+	
+	@Column(name="img_id_card_a", length=128)
+	public String getImgIDCardA() {
+		return imgIDCardA;
+	}
+	public void setImgIDCardA(String imgIDCardA) {
+		this.imgIDCardA = imgIDCardA;
+	}
+	
+	@Column(name="img_id_card_b", length=128)
+	public String getImgIDCardB() {
+		return imgIDCardB;
+	}
+	public void setImgIDCardB(String imgIDCardB) {
+		this.imgIDCardB = imgIDCardB;
+	}
+	
+	@Column(name="img_address", length=128)
+	public String getImgAddress() {
+		return imgAddress;
+	}
+	public void setImgAddress(String imgAddress) {
+		this.imgAddress = imgAddress;
+	}
+	
+	@Column(name="img_bank_crad_1", length=128)
+	public String getImgBankCard1() {
+		return imgBankCard1;
+	}
+	public void setImgBankCard1(String imgBankCard1) {
+		this.imgBankCard1 = imgBankCard1;
+	}
+
+	@Column(name="img_bank_crad_2", length=128)
+	public String getImgBankCard2() {
+		return imgBankCard2;
+	}
+	public void setImgBankCard2(String imgBankCard2) {
+		this.imgBankCard2 = imgBankCard2;
+	}
+
+	@Column(name="img_bank_crad_3", length=128)
+	public String getImgBankCard3() {
+		return imgBankCard3;
+	}
+	public void setImgBankCard3(String imgBankCard3) {
+		this.imgBankCard3 = imgBankCard3;
 	}
 	
 }

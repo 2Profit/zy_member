@@ -10,10 +10,14 @@ import com.zy.common.entity.PageModel;
 import com.zy.common.service.CommonService;
 import com.zy.member.dao.MemberDao;
 import com.zy.member.entity.Member;
+import com.zy.member.entity.MemberCode;
 
 @Service
 public class MemberService extends CommonService<Member,String>{
 
+	@Autowired
+	private MemberCodeService memberCodeService;
+	
 	@Autowired
 	private MemberDao memberDao;
 	
@@ -50,5 +54,13 @@ public class MemberService extends CommonService<Member,String>{
 	
 	public Member findMemberByLogin(String username){
 		return memberDao.findMemberByLogin(username);
+	}
+	
+	public void saveMember(Member member, MemberCode memberCode){
+		
+		memberDao.save(member);
+		
+		memberCode.setMember(member);
+		memberCodeService.save(memberCode);
 	}
 }
