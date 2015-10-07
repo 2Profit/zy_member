@@ -96,6 +96,7 @@ public class Member extends MemberUser{
 		this.memBrokerRels = memBrokerRels;
 	}
 	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "mem_bank_info_id")
 	public MemBankInfo getMemBankInfo() {
 		return memBankInfo;
