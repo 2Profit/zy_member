@@ -61,6 +61,7 @@ public class MemberService extends CommonService<Member,String>{
 		memberDao.save(member);
 		
 		memberCode.setMember(member);
+		memberCode.setStatus(1);
 		memberCodeService.save(memberCode);
 	}
 }

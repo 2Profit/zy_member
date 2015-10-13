@@ -54,6 +54,8 @@ public class Member extends MemberUser{
 	private String address;		//联系地址
 	private Nationality nationality;	//国籍
 	
+	private Integer coin;		//虚拟币数量
+	
 	private String imgIDCardA;			//身份证正面
 //	private Integer imgIDCardAStatus;	//
 	private String imgIDCardB;			//身份证反面
@@ -263,6 +265,14 @@ public class Member extends MemberUser{
 	}
 	public void setImgBankCard3(String imgBankCard3) {
 		this.imgBankCard3 = imgBankCard3;
+	}
+	
+	@Column(name="coin")
+	public Integer getCoin() {
+		return coin;
+	}
+	public void setCoin(Integer coin) {
+		this.coin = coin;
 	}
 	
 }
