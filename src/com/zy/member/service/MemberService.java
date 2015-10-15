@@ -3,6 +3,7 @@ package com.zy.member.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,17 @@ import com.zy.common.service.CommonService;
 import com.zy.member.dao.MemberDao;
 import com.zy.member.entity.Member;
 import com.zy.member.entity.MemberCode;
+import com.zy.personal.entity.MemBankInfo;
+import com.zy.personal.service.MemBankInfoService;
 
 @Service
 public class MemberService extends CommonService<Member,String>{
 
 	@Autowired
 	private MemberCodeService memberCodeService;
+	
+	@Autowired
+	private MemBankInfoService memBankInfoService;
 	
 	@Autowired
 	private MemberDao memberDao;
@@ -63,5 +69,17 @@ public class MemberService extends CommonService<Member,String>{
 		memberCode.setMember(member);
 		memberCode.setStatus(1);
 		memberCodeService.save(memberCode);
+	}
+	
+	public void saveOrUpdateMember(Member member, MemBankInfo memBankInfo){
+		
+		if(StringUtils.isNotBlank(memBankInfo.getId())){
+			memBankInfoService.update(memBankInfo);
+		}else{
+			memBankInfoService.save(memBankInfo);
+		}
+		
+		memberDao.save(member);
+		
 	}
 }

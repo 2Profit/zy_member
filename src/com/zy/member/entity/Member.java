@@ -57,15 +57,11 @@ public class Member extends MemberUser{
 	private Integer coin;		//虚拟币数量
 	
 	private String imgIDCardA;			//身份证正面
-//	private Integer imgIDCardAStatus;	//
 	private String imgIDCardB;			//身份证反面
-//	private Integer imgIDCardBStatus;	//
 	
 	private String imgAddress;
 	
-	private String imgBankCard1;
-	private String imgBankCard2;
-	private String imgBankCard3;
+	private String imgBankCard;
 	
 	@ManyToOne
 	@JoinColumn(name = "degree_id")
@@ -243,30 +239,13 @@ public class Member extends MemberUser{
 		this.imgAddress = imgAddress;
 	}
 	
-	@Column(name="img_bank_crad_1", length=128)
-	public String getImgBankCard1() {
-		return imgBankCard1;
+	@Column(name="img_bank_card")
+	public String getImgBankCard() {
+		return imgBankCard;
 	}
-	public void setImgBankCard1(String imgBankCard1) {
-		this.imgBankCard1 = imgBankCard1;
+	public void setImgBankCard(String imgBankCard) {
+		this.imgBankCard = imgBankCard;
 	}
-
-	@Column(name="img_bank_crad_2", length=128)
-	public String getImgBankCard2() {
-		return imgBankCard2;
-	}
-	public void setImgBankCard2(String imgBankCard2) {
-		this.imgBankCard2 = imgBankCard2;
-	}
-
-	@Column(name="img_bank_crad_3", length=128)
-	public String getImgBankCard3() {
-		return imgBankCard3;
-	}
-	public void setImgBankCard3(String imgBankCard3) {
-		this.imgBankCard3 = imgBankCard3;
-	}
-	
 	@Column(name="coin")
 	public Integer getCoin() {
 		return coin;
