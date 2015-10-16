@@ -59,9 +59,7 @@ public class Member extends MemberUser{
 	private String imgIDCardA;			//身份证正面
 	private String imgIDCardB;			//身份证反面
 	
-	private String imgAddress;
-	
-	private String imgBankCard;
+	private String imgBankCard;			//银行卡证明
 	
 	@ManyToOne
 	@JoinColumn(name = "degree_id")
@@ -229,14 +227,6 @@ public class Member extends MemberUser{
 	}
 	public void setImgIDCardB(String imgIDCardB) {
 		this.imgIDCardB = imgIDCardB;
-	}
-	
-	@Column(name="img_address", length=128)
-	public String getImgAddress() {
-		return imgAddress;
-	}
-	public void setImgAddress(String imgAddress) {
-		this.imgAddress = imgAddress;
 	}
 	
 	@Column(name="img_bank_card")
