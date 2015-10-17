@@ -31,6 +31,8 @@ public class Member extends MemberUser{
 
 	private static final long serialVersionUID = 87102501953163859L;
 
+	private Integer no;			//会员编号
+	
 	private Degree degree;
 	private String accountType;//账号类型（全部、真实、测试）
 	private String accountCategory;//账号类别（全部、客户、老师）
@@ -38,8 +40,6 @@ public class Member extends MemberUser{
 	private MemBankInfo memBankInfo;//银行信息
 	private String cnName;//中文名
 	private String enName;//英文名
-	private String telephone;//电话
-	private String cellphone;//手机
 	private Date createAccountDate;//开户日期
 	private String isBindWeChat;//wechat绑定状态（0-全部，1-绑定，2-未绑定）
 	private String isVoteAuth;//投票权限（1-开，0-关）
@@ -60,6 +60,14 @@ public class Member extends MemberUser{
 	private String imgIDCardB;			//身份证反面
 	
 	private String imgBankCard;			//银行卡证明
+	
+	@Column(name="no", updatable=false)
+	public Integer getNo() {
+		return no;
+	}
+	public void setNo(Integer no) {
+		this.no = no;
+	}
 	
 	@ManyToOne
 	@JoinColumn(name = "degree_id")
@@ -113,20 +121,6 @@ public class Member extends MemberUser{
 	}
 	public void setEnName(String enName) {
 		this.enName = enName;
-	}
-	@Column(length=16)
-	public String getTelephone() {
-		return telephone;
-	}
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
-	@Column(length=16)
-	public String getCellphone() {
-		return cellphone;
-	}
-	public void setCellphone(String cellphone) {
-		this.cellphone = cellphone;
 	}
 	public Date getCreateAccountDate() {
 		return createAccountDate;

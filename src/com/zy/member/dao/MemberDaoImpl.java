@@ -1,6 +1,7 @@
 package com.zy.member.dao;
 
 import java.util.Map;
+import java.math.BigInteger;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,40 +38,46 @@ public class MemberDaoImpl extends CustomBaseSqlDaoImpl implements MemberDaoCust
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public PageModel<Member> queryForPage(Member queryDto, PageModel<Member> pageModal) {
-		StringBuilder hql = new StringBuilder("select l from Member l where 1=1 ");
-		Map<String,Object> params = new HashMap<String,Object>();
+	public PageModel<Member> queryForPage(Map<String, Object> params, Integer currentPage, Integer pageSize) {
 		
-		if(StringUtils.isNotBlank(queryDto.getId())){
-			hql.append(" and l.id = :memberId ");
-			params.put("memberId", queryDto.getId());
+		StringBuilder hql = new StringBuilder("select l from Member l where l.deleteFlag = 0 ");
+		
+		if(params.get("no") != null){
+			hql.append(" and l.no = :no ");
 		}
-		if(StringUtils.isNotBlank(queryDto.getUserName())){
-			hql.append(" and l.userName like :userName ");
-			params.put("userName", "%"+queryDto.getUserName()+"%");
-		}
-		if(StringUtils.isNotBlank(queryDto.getCnName())){
+		
+		if(params.get("cnName") != null){
 			hql.append(" and l.cnName like :cnName ");
-			params.put("cnName", "%"+queryDto.getCnName()+"%");
 		}
-		if(StringUtils.isNotBlank(queryDto.getEnName())){
-			hql.append(" and l.enName like :enName ");
-			params.put("enName", "%"+queryDto.getEnName()+"%");
-		}
-		if(StringUtils.isNotBlank(queryDto.getCellphone())){
-			hql.append(" and l.cellphone like :cellphone ");
-			params.put("cellphone", "%"+queryDto.getCellphone()+"%");
-		}
-		if(StringUtils.isNotBlank(queryDto.getTelephone())){
-			hql.append(" and l.telephone like :telephone ");
-			params.put("telephone", "%"+queryDto.getTelephone()+"%");
-		}
-		if(StringUtils.isNotBlank(queryDto.getAccountCategory())){
-			hql.append(" and l.accountCategory = :accountCategory ");
-			params.put("accountCategory", queryDto.getAccountCategory());
-		}
-		hql.append(" order by l.updateDate desc ");
 		
-		return this.queryForPageWithParams(hql.toString(),params,pageModal.getCurrentPage(), pageModal.getPageSize());
+		if(params.get("enName") != null){
+			hql.append(" and l.enName like :enName ");
+		}
+		
+		if(params.get("accountCategory") != null){
+			hql.append(" and l.accountCategory = :accountCategory ");
+		}
+
+		if(params.get("accountType") != null){
+			hql.append(" and l.accountType = :accountType ");
+		}
+		
+		if(params.get("status") != null){
+			hql.append(" and l.status = :status ");
+		}
+		
+		hql.append(" order by l.no desc ");
+		
+		return this.queryForPageWithParams(hql.toString(), params, currentPage, pageSize);
+	}
+	
+	public Integer getSequenceNo() {
+		
+		String sql = "select nextval('proposal_mem_member_no_seq')";
+		BigInteger bi = this.queryCountBySql(sql, null);
+		if(bi == null){
+			return null;
+		}
+		return bi.intValue();
 	}
 }

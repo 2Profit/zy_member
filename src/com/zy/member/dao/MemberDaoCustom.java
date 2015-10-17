@@ -9,5 +9,8 @@ public interface MemberDaoCustom {
 
 	public int validUserOnly(Map<String, Object> params);
 	
-	PageModel<Member> queryForPage(Member queryDto,PageModel<Member> pageModal);
+	PageModel<Member> queryForPage(Map<String, Object> params, Integer currentPage, Integer pageSize);
+	
+	public Integer getSequenceNo();
+	
 }

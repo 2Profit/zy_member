@@ -32,8 +32,8 @@ public class MemberService extends CommonService<Member,String>{
 		super.setCommonDao(memberDao);
 	}
 	
-	public PageModel<Member> queryForPage(Member queryDto,PageModel<Member> pageModal){
-		return memberDao.queryForPage(queryDto, pageModal);
+	public PageModel<Member> queryForPage(Map<String, Object> params, Integer currentPage, Integer pageSize) {
+		return memberDao.queryForPage(params, currentPage, pageSize);
 	}
 	
 	public int validUserOnly(Map<String, Object> params){
@@ -81,5 +81,9 @@ public class MemberService extends CommonService<Member,String>{
 		
 		memberDao.save(member);
 		
+	}
+	
+	public Integer getSequenceNo() {
+		return memberDao.getSequenceNo();
 	}
 }
