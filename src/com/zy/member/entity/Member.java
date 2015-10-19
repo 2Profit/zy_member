@@ -31,6 +31,11 @@ public class Member extends MemberUser{
 
 	private static final long serialVersionUID = 87102501953163859L;
 
+	public static final Integer IMG_STATUS_WSC = 0;		//未上传
+	public static final Integer IMG_STATUS_DSH = 1;		//待审批
+	public static final Integer IMG_STATUS_TG = 2;		//有效
+	public static final Integer IMG_STATUS_WTG = 3;		//未通过
+	
 	private Integer no;			//会员编号
 	
 	private Degree degree;
@@ -59,7 +64,11 @@ public class Member extends MemberUser{
 	private String imgIDCardA;			//身份证正面
 	private String imgIDCardB;			//身份证反面
 	
+	private Integer imgIDCardStatus;	//上传身份证状态		0未上传\1待审核2\有效\3审批未通过
+	
 	private String imgBankCard;			//银行卡证明
+	
+	private Integer imgBackCardStatus;	//银行卡证明状态		0未上传\1待审核2\有效\3审批未通过
 	
 	@Column(name="no", updatable=false)
 	public Integer getNo() {
@@ -237,5 +246,23 @@ public class Member extends MemberUser{
 	public void setCoin(Integer coin) {
 		this.coin = coin;
 	}
+	
+	@Column(name="img_id_card_status", precision=1)
+	public Integer getImgIDCardStatus() {
+		return imgIDCardStatus;
+	}
+	public void setImgIDCardStatus(Integer imgIDCardStatus) {
+		this.imgIDCardStatus = imgIDCardStatus;
+	}
+	
+	@Column(name="img_back_card_status", precision=1)
+	public Integer getImgBackCardStatus() {
+		return imgBackCardStatus;
+	}
+	public void setImgBackCardStatus(Integer imgBackCardStatus) {
+		this.imgBackCardStatus = imgBackCardStatus;
+	}
+	
+	
 	
 }
