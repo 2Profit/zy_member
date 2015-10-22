@@ -29,6 +29,10 @@ public class MemberCodeService extends CommonService<MemberCode, String> {
 		return memberCodeDao.findCodesByMobile(mobile);
 	}
 	
+	public List<MemberCode> findCodesByEmail(String email) {
+		return memberCodeDao.findCodesByEmail(email);
+	}
+	
 	/**
 	 * 短信验证码验证
 	 * @param mobile
@@ -48,8 +52,13 @@ public class MemberCodeService extends CommonService<MemberCode, String> {
 			memberCode = memberCodes.get(0);
 			Date currentDate = new Date();
 			
+			if(memberCode.getStatus() == null || memberCode.getStatus() != MemberCode.STATUS_VALID){
+				map.put("msg", "短信验证码已无效，请重新发送");
+				return map;
+			}
+			
 			if(DateUtils.addMinutes(memberCode.getCreateDate(), SMSVaildTimeInt).before(currentDate)){
-				msg = "短信验证码已过期，请重新操作";
+				msg = "短信验证码已过期，请重新发送";
 			}else{
 				code = StringUtils.trimToEmpty(code);
 				if(!code.equals(memberCode.getCode())){
@@ -62,4 +71,41 @@ public class MemberCodeService extends CommonService<MemberCode, String> {
 		return map;
 	}
 	
+	/**
+	 * 邮箱验证码验证
+	 * @param mobile
+	 * @param code
+	 * @param SMSVaildTimeInt
+	 * @return
+	 */
+	public Map<String, Object> validatorCodeEmail(String email, String code, int emailVaildTimeInt){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String msg = "";
+		List<MemberCode> memberCodes = findCodesByEmail(email);
+		MemberCode memberCode = null;
+		if(memberCodes == null || memberCodes.isEmpty()){
+			msg = "邮箱验证码错误";
+		}else{
+			
+			memberCode = memberCodes.get(0);
+			Date currentDate = new Date();
+			
+			if(memberCode.getStatus() == null || memberCode.getStatus() != MemberCode.STATUS_VALID){
+				map.put("msg", "邮箱验证码已无效，请重新发送");
+				return map;
+			}
+			
+			if(DateUtils.addMinutes(memberCode.getCreateDate(), emailVaildTimeInt).before(currentDate)){
+				msg = "邮箱验证码已过期，请重新操作";
+			}else{
+				code = StringUtils.trimToEmpty(code);
+				if(!code.equals(memberCode.getCode())){
+					msg = "邮箱验证码错误";
+				}
+			}
+			map.put("memberCode", memberCode);
+		}
+		map.put("msg", msg);
+		return map;
+	}
 }
