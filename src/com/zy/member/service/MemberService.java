@@ -62,6 +62,10 @@ public class MemberService extends CommonService<Member,String>{
 		return memberDao.findMemberByLogin(username);
 	}
 	
+	public Member findMemberByNo(Integer no){
+		return memberDao.findMemberByNo(no);
+	}
+	
 	public void saveMember(Member member, MemberCode memberCode){
 		
 		memberDao.save(member);

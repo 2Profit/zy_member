@@ -36,11 +36,17 @@ public class Member extends MemberUser{
 	public static final Integer IMG_STATUS_TG = 2;		//有效
 	public static final Integer IMG_STATUS_WTG = 3;		//未通过
 	
+	public static final String ACCOUNT_TYPE_TRUE = "0";	//真实
+	public static final String ACCOUNT_TYPE_TEST = "1";	//测试
+	
+	public static final String ACCOUNT_CATEGORY_CUSTOMER = "0";	//客户
+	public static final String ACCOUNT_CATEGORY_TEAHCER = "1";	//老师
+	
 	private Integer no;			//会员编号
 	
 	private Degree degree;
-	private String accountType;//账号类型（全部、真实、测试）
-	private String accountCategory;//账号类别（全部、客户、老师）
+	private String accountType;//账号类型（全部、0真实、1测试）
+	private String accountCategory;//账号类别（全部、0客户、1老师）
 	private List<MemBrokerRel> memBrokerRels;//经纪商
 	private MemBankInfo memBankInfo;//银行信息
 	private String cnName;//中文名
