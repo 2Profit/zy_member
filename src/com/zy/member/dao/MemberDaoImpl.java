@@ -42,6 +42,10 @@ public class MemberDaoImpl extends CustomBaseSqlDaoImpl implements MemberDaoCust
 		
 		StringBuilder hql = new StringBuilder("select l from Member l where l.deleteFlag = 0 ");
 		
+		if(params.get("mobile") != null){
+			hql.append(" and l.mobile = :mobile ");
+		}
+		
 		if(params.get("no") != null){
 			hql.append(" and l.no = :no ");
 		}
