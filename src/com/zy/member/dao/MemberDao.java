@@ -13,4 +13,7 @@ public interface MemberDao extends MemberDaoCustom,CommonDao<Member,String>{
 	@Query("from Member m where m.deleteFlag = 0 and m.no = ?1 ")
 	public Member findMemberByNo(Integer no);
 	
+	@Query("from Member m where m.deleteFlag = 0 and m.email = ?1 ")
+	public Member findMemberByEmail(String email);
+	
 }

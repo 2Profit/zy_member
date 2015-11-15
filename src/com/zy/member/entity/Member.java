@@ -76,7 +76,7 @@ public class Member extends MemberUser{
 	
 	private Integer imgBackCardStatus;	//银行卡证明状态		0未上传\1待审核2\有效\3审批未通过
 	
-	@Column(name="no", updatable=false)
+	@Column(name="no")
 	public Integer getNo() {
 		return no;
 	}

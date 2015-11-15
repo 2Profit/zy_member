@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zy.broker.entity.MemBrokerRel;
+import com.zy.broker.service.MemBrokerRelService;
 import com.zy.common.entity.PageModel;
 import com.zy.common.service.CommonService;
 import com.zy.member.dao.MemberDao;
@@ -14,6 +16,8 @@ import com.zy.member.entity.Member;
 import com.zy.member.entity.MemberCode;
 import com.zy.personal.entity.MemBankInfo;
 import com.zy.personal.service.MemBankInfoService;
+import com.zy.proposal.entity.ProposalBackDiscount;
+import com.zy.proposal.service.ProposalBackDiscountService;
 
 @Service
 public class MemberService extends CommonService<Member,String>{
@@ -23,6 +27,12 @@ public class MemberService extends CommonService<Member,String>{
 	
 	@Autowired
 	private MemBankInfoService memBankInfoService;
+	
+	@Autowired
+	private MemBrokerRelService memBrokerRelService;
+	
+	@Autowired
+	private ProposalBackDiscountService proposalBackDiscountService;
 	
 	@Autowired
 	private MemberDao memberDao;
@@ -66,13 +76,39 @@ public class MemberService extends CommonService<Member,String>{
 		return memberDao.findMemberByNo(no);
 	}
 	
-	public void saveMember(Member member, MemberCode memberCode){
+	public void saveMember(Member member, MemberCode memberCode, ProposalBackDiscount proposalBackDiscount){
+		
+		if(proposalBackDiscount != null){
+			MemBankInfo memBankInfo = new MemBankInfo();
+			memBankInfo.setBankAccount(proposalBackDiscount.getBankName());
+			memBankInfo.setBankCardNum(proposalBackDiscount.getBankCard());
+			memBankInfo.setBankAddress(proposalBackDiscount.getName());
+			memBankInfoService.save(memBankInfo);
+			
+			member.setMemBankInfo(memBankInfo);
+			
+			member.setEmail(proposalBackDiscount.getEmail());
+		}
 		
 		memberDao.save(member);
 		
 		memberCode.setMember(member);
 		memberCode.setStatus(1);
 		memberCodeService.save(memberCode);
+		
+		if(proposalBackDiscount != null){
+			//用户与经纪商关系
+			MemBrokerRel memBrokerRel = new MemBrokerRel();
+			memBrokerRel.setBrokerInfo(proposalBackDiscount.getBrokerInfo());
+			memBrokerRel.setMember(member);
+			memBrokerRel.setMt4Card(proposalBackDiscount.getMt4Card());
+			memBrokerRelService.save(memBrokerRel);
+			
+			proposalBackDiscount.setRegisterStatus(1);
+			proposalBackDiscount.setMember(member);
+			proposalBackDiscountService.update(proposalBackDiscount);
+		}
+		
 	}
 	
 	public void saveOrUpdateMember(Member member, MemBankInfo memBankInfo){
@@ -87,7 +123,12 @@ public class MemberService extends CommonService<Member,String>{
 		
 	}
 	
-	public Integer getSequenceNo() {
-		return memberDao.getSequenceNo();
+//	public Integer getSequenceNo() {
+//		return memberDao.getSequenceNo();
+//	}
+	
+	public Member findMemberByEmail(String email) {
+		return memberDao.findMemberByEmail(email);
 	}
+	
 }
